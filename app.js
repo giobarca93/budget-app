@@ -17,11 +17,10 @@ var budgetController = (function() {
         allItems: {
             exp: [],
             inc: []
-        }
+        },
         totals: {
             exp: 0,
             inc: 0
-
         }
     };
 
