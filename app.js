@@ -15,8 +15,9 @@ var budgetController = (function() {
 
     var calculateTotal = function(type){
         var sum = 0;
-        data.allItems[type].forEach(function(cur){
-            sum += cur.value;
+
+        data.allItems[type].forEach(function(cur) {
+            sum = sum + cur.value;
         });
         data.totals[type] = sum;
     }; 
@@ -30,7 +31,7 @@ var budgetController = (function() {
             exp: 0,
             inc: 0
         },
-        budget: 0, 
+        budget: 0,   
         percentage: -1
     };
 
@@ -47,13 +48,12 @@ var budgetController = (function() {
             //create new item based on inc or exp type
             if (type === "exp") {
                 newItem = new Expense(ID,des, val);
-                
             } else if (type === "inc") {
                 newItem = new Income(ID, des, val);
             }
 
             // push it to the data structure
-            data.allItems[type].push[newItem];
+            data.allItems[type].push(newItem);
 
             // return the new element 
             return newItem;
@@ -68,7 +68,12 @@ var budgetController = (function() {
             data.budget = data.totals.inc - data.totals.exp;
 
             // calculate the percentage of income that we spent
-            data.percentage = Math.round((data.totals.inc / data.totals.exp) * 100);
+            if(data.totals.inc > 0){
+                data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+            } else {
+                data.percentage = -1;
+            }
+                    
         },
 
         getBudget: function(){
@@ -83,6 +88,7 @@ var budgetController = (function() {
         testing: function(){
             console.log(data);
         }
+
     };
     
 })();
@@ -175,7 +181,7 @@ var controller = (function(budgetCtrl, UICtrl) {
         console.log(budget);  
     };
 
-
+ 
     var ctrlAddItem = function(){
         var input, newItem;
         //1. get the field input data
